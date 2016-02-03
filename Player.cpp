@@ -18,20 +18,23 @@ bool Player::DrawBone(ChickenYard& yard)
 //bool Player::PlayBone(Bone*& aBone)
 int Player::PlayBone()
 {
-	int BoneSelected = 0;
+	int BoneSelected = -1;
 //	int HandsBones = DisplayHand();
+	DisplayHand();
+	
+	cout << "Play a bone or hit 0 to draw one\n";
 
-	cout << "Play a bone matches one of the ends: ";
 	cin >> BoneSelected;
 
 	while (BoneSelected < 0 || BoneSelected > HandSize())
 	{
 		cout << "\n***Warning***\nWrong choice\nPlease try again\n\n";
-		cin.clear();
+//		cin.clear();
 		cin >> BoneSelected;
 	}
-	cin.clear();
+//	cin.clear();
 	return BoneSelected - 1;
+
 /*	// ***** hand.erase( begin,index)
 	int position;
 	srand(time(NULL));

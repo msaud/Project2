@@ -108,6 +108,8 @@ bool Field::PlayGame(Bone* aBone)
 	}
 	else	//The game is unlocked double ends 
 	{
+		cout << "The open ends are: \n";
+		PrintFreeEnds();
 		if(aBone->isDouble()) //No doubles on the ends
 		{
 		//	for(int index = 0; index < fieldSize; index++)

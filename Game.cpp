@@ -47,46 +47,51 @@ void Game::RunGame()
 	int tmp = 0;	
 //	int PlayerNumber = 0;
 	int CurrPlayer = 0;
-	
+	int j;
+	int HighBone = 0;
+
 	for(int index = 0; index < NumOfPlayer; index++)
 	{
-		for (int j = 0; j < players->HandSize(); j++)
+		for ( j = 0; j < players->HandSize(); j++)
 	//		if(players[index].ShowHand(j) == NULL)
 				if((players[index].ShowHand(j)->isDouble() && (players[index].ShowHand(j)->getFirstEnd()) > tmp))
 				{
-					tmp = players[index].ShowHand(j)->getFirstEnd();
+					j = players[index].ShowHand(tmp)->getFirstEnd();
 					CurrPlayer = index;
+					HighBone = tmp;
 				}
 	}
 	int SwitchPlayer = CurrPlayer;
 
 	//Print Player's hand
-
-	for(int i = 0; i < NumOfPlayer; i++)
-	{
-		cout << "Player # " << i + 1 << endl;
-		players[i].print();
-	}
-
-	cout << "|" << tmp << "|" << tmp << "|" << endl;
-	cout << "The highest double with Player " << (CurrPlayer + 1) << endl;	
 	
+//	for(int i = 0; i < NumOfPlayer; i++)
+//	{
+//		cout << "Player # " << i + 1 << endl;
+//	}
+
+	cout << "|" << HighBone << "|" << HighBone << "|" << endl;
+	cout << "The highest double with Player " << (CurrPlayer + 1) << endl;	
+	players[CurrPlayer].print();
 	if(aField->FirstMatch(players[CurrPlayer].ShowHand(tmp)))
 	{
 		players[CurrPlayer].ShowHand(tmp)->print();
 		cout << "\n\n";
-		players[CurrPlayer].DelBone(tmp);
+//		players[CurrPlayer].DelBone(tmp);
 	}
 
 	while(!GameOver)
 	{
-		if(SwitchPlayer == NumOfPlayer)
+		if(SwitchPlayer < NumOfPlayer)
 			SwitchPlayer = 0;
-
+		
+		players[SwitchPlayer].print();
+		
 		SwitchPlayer++;
 		cout << "Player # " << SwitchPlayer + 1 << endl;
-		PlayerTurn(players[CurrPlayer]);
+		PlayerTurn(players[SwitchPlayer]);
 
+	
 	}
 
 }
@@ -113,7 +118,7 @@ bool Game::PlayerTurn(Player& CurrPlayer)
 				aField->FirstMatch(CurrPlayer.ShowHand(BonePlayed));
 		//		if(turn == true)
 		//		{
-					CurrPlayer.DelBone(BonePlayed);
+		//			CurrPlayer.DelBone(BonePlayed);
 		//		}
 		
 		}
