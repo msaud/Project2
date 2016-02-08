@@ -5,9 +5,13 @@ using namespace std;
 
 Field::Field():UnLockGame(3)
 {
-	EndsCounter = -2; //-2
+	LockedDouble = false;
+	EndsCounter = -1; //-2
+	MatchDouble = 0;
 	fieldSize = 0;
 //	UnLockGame = 3; // 3 ends in the chicken foot
+	LLField = new node*[45];	//45 the number of the bones
+
 }
 
 Field::~Field()
@@ -25,17 +29,29 @@ int Field::GetDoubleBone()
 	return DoubleBone;
 }
 
-bool Field::isFirstMatch()
-{
+//bool Field::isFirstMatch()
+//{
+/*
 	if(EndsCounter == -2)
 		return true;
 	else
-		return false;
-}
+		return false;*/
+//}
 
 bool Field::FirstMatch(Bone* aBone)
 {
-	if((aBone->getFirstEnd() == DoubleBone) && (aBone->getSecEnd() == DoubleBone))
+	
+	if(aBone->isDouble())
+	{	
+		LLField[fieldSize] = new node(aBone, aBone->getFirstEnd());
+		MatchDouble = aBone->getFirstEnd();
+		LockedDouble = true;
+		return true;
+	}
+
+	return false;
+	
+/*	if((aBone->getFirstEnd() == DoubleBone) && (aBone->getSecEnd() == DoubleBone))
 	{
 		EndsCounter++;  //sa
 		return true;
@@ -44,7 +60,7 @@ bool Field::FirstMatch(Bone* aBone)
 	{
 		cout << "***This is not your highest double***\n" << "**Please Try Again**\n";
 		return false;
-	}
+	}*/
 }
 
 bool Field::PlayGame(Bone* aBone)
@@ -63,16 +79,16 @@ bool Field::PlayGame(Bone* aBone)
 		//	LLField[fieldSize] = new node(aBone, aBone->getSecEnd()); //new LL
 		//	OpenEnds[fieldSize] = LLField[fieldSize];
 		//	fieldSize++;
-		//	EndsCounter++;
+			EndsCounter++;
 			
 			if(EndsCounter == UnLockGame)
 			{
 				LockedDouble = false;
 				EndsCounter = 2;
-				return true;
+//				return true;
 			}
-			else	//open the game again
-				return true;
+//			else	//open the game again
+//				return true;
 		}
 
 		else if(aBone->getFirstEnd() == DoubleBone) // if second end match double
@@ -88,28 +104,30 @@ bool Field::PlayGame(Bone* aBone)
 //			LLField[fieldSize] = new node(aBone, aBone->getFirstEnd()); //new LL
 //			OpenEnds[fieldSize] = LLField[fieldSize];
 //			fieldSize++;
-//			EndsCounter++;
-			
+			EndsCounter++;
+		
+			//lock the game to play from the double sides
 			if(EndsCounter == UnLockGame)
 			{
 				LockedDouble = false;
-				EndsCounter = 2;
-				return true;
+				EndsCounter = 0;
+//				return true;
 			}
-			else	//open the game again
-				return true;
+//			else	//open the game again
+//				return true;
 		}
 
-		else
-		{
-			cout << "***Invalid Choice***\nTry Again";
+//		else
+//		{
+//			cout << "***Invalid Choice***\nTry Again";
 			return false;
-		}
+//		}
+
 	}
 	else	//The game is unlocked double ends 
 	{
-		cout << "The open ends are: \n";
-		PrintFreeEnds();
+	//	cout << "The open ends are: \n";
+	//	PrintFreeEnds();
 		if(aBone->isDouble()) //No doubles on the ends
 		{
 		//	for(int index = 0; index < fieldSize; index++)
@@ -129,7 +147,7 @@ bool Field::PlayGame(Bone* aBone)
 					return true;
 				}
 			//	else if(aBone->getSecEnd() == OpenEnds[index]->Ends)
-				if(aBone->getFirstEnd() == *it)
+			/*	if(aBone->getFirstEnd() == *it)
 				{
 					//	OpenEnds[index]->setEnd(9 + 1);
 					OpenEnds.erase(it);
@@ -138,10 +156,10 @@ bool Field::PlayGame(Bone* aBone)
 					LockedDouble = true;
 					DoubleBone = aBone->getFirstEnd();
 					return true;
-				}
+				}*/
 	
 			}
-			cout << "***Invalid choice***\nchoose one of the ends";
+		//	cout << "***Invalid choice***\nchoose one of the ends";
 			return false;
 		}
 		else	//Add ends not double

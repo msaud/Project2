@@ -57,7 +57,7 @@ bool Player::DelBone(int delBone)
 int Player::DisplayHand()
 {
 	int j = 0;
-	for (int index; index < 45 ; index++)  //45 the number of bones
+	for (int index = 0; index < 45 ; index++)  //45 the number of bones
 	{
 		if (hand[index] != nullptr)
 		{

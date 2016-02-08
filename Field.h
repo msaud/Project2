@@ -27,7 +27,7 @@ class Field
 		void SetDoubleBone(int DoubleBone);
 		int GetDoubleBone();
 		bool PlayGame(Bone* aBone);
-		bool isFirstMatch();
+	//	bool isFirstMatch();
 		bool FirstMatch(Bone* aBone);
 		void PrintFreeEnds();
 	private:
@@ -36,6 +36,7 @@ class Field
 		bool LockedDouble;
 		int fieldSize;
 		int UnLockGame; 	//No ends are double
+		int MatchDouble;
 
 		node** LLField;
 	//	node** OpenEnds;

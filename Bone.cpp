@@ -43,15 +43,24 @@ int Bone::getSecEnd() const
 
 bool Bone::isDouble() const
 {
-	if(FirstEnd == SecEnd)
-		return true;
+//	if(FirstEnd == SecEnd)
+//		return true;
+	return (FirstEnd == SecEnd);
 
-	else
-		return false;
+//	else
+//		return false;
 }
 
 void Bone::print() const
 {
 	cout << "|" <<FirstEnd << "|" << SecEnd << "|";
 }
+/*
+bool operator ==(const Bone & End1, Bone & End2)
+{
+	if((End1.getFirstEnd() == End2.getSecEnd() && End1.getSecEnd() == End2.getFirstEnd()) || (End1.getFirstEnd() == End2.getFirstEnd() && End1.getSecEnd() == End2.getFirstEnd()))
+		return true;
 
+	return false;
+
+}*/
