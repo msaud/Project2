@@ -80,7 +80,7 @@ void Game::RunGame()
 
 //	int SwitchPlayer = IntialPlayer;
 
-	cout << tmp << "HIGHEST BONE\n\n\n";
+//	cout << tmp << "HIGHEST BONE\n\n\n";
 
 	
 	
@@ -92,29 +92,26 @@ void Game::RunGame()
 		players[i].print();
 	}
 
-	cout << "|" << tmp << "|" << tmp << "|" << endl;
-//	cout << "The highest double with Player " << IntialPlayer + 1 << endl;	
-//	players[CurrPlayer].print();
 
-
+	int Index = players[IntialPlayer].DoubleIndex();
 	
-/*	if(aField->FirstMatch(players[IntialPlayer].ShowHand(tmp)))
+	if(aField->FirstMatch(players[IntialPlayer].ShowHand(Index)))
 	{
 		cout <<"Success to the first play\n\n";
-		players[IntialPlayer].ShowHand(tmp)->print();
+		players[IntialPlayer].ShowHand(Index)->print();
 		cout << "\n\n";
-		players[IntialPlayer].DelBone(tmp);
+		players[IntialPlayer].DelBone(Index);
 		cout << "First Double played\n\n";
 	}
 
 	else
 		cout << "Faild First play\n";
-*/
+
 		
 
-		players[IntialPlayer].DelBone(tmp);
+//		players[IntialPlayer].DelBone(tmp);
 
-		players[IntialPlayer].print();
+//		players[IntialPlayer].print();
 	//Player's turn
 
 /*	if(aField->FirstMatch(players[IntialPlayer].ShowHand(tmp)))
@@ -131,92 +128,98 @@ void Game::RunGame()
 	while(!GameOver)
 	{
 		IntialPlayer++;
-		if(IntialPlayer < NumOfPlayer)
+		if(IntialPlayer == NumOfPlayer)
 			IntialPlayer = 0;
 		
-		players[IntialPlayer].print();
+//		players[IntialPlayer].print();
 		
 	//	SwitchPlayer++;
 		cout << "Player # " << IntialPlayer + 1 << endl;
-//		PlayerTurn(players[IntialPlayer]);
+		PlayerTurn(players[IntialPlayer]);
 
-		GameOver = true;	
 	}
 
 }
 
-/*
-int Game::HighestBone(int NumOfPlayer)
-{
-//	int CurrPlayer;
-	int IntialPlayer = 0;
-//	int HighBone;
-	bool ExistedDouble = false;
-	int tmp = 0;	//tmp is the highest double
-	for(int index = 0; index < NumOfPlayer; index++)
-	{
-		for (int j = 0; j < players->HandSize(); j++)
-		{	
-//			if(players[index].ShowHand(j))
-//			{
-				if(players[index].ShowHand(j)->isDouble() && (players[index].ShowHand(j)->getFirstEnd() > tmp))
-				{
-				//	j = players[index].ShowHand(tmp)->getFirstEnd();
-				//	CurrPlayer = index;
-					IntialPlayer = index;
-				//	HighBone = tmp;
-					tmp = players[index].ShowHand(j)->getFirstEnd();
-					
-					ExistedDouble = true;
-			//		cout << j << ":  J\n\n ";
-			//		cout << "INDEX IS " << index << endl;
-					cout << " TMP "  << tmp << endl;	
-				
-				}
-//			}
-		}
-	}
-	if(ExistedDouble == false)
-	{
-		cout << "There is no double in the first run\n";
-		cout << "Please run the game again\n";
-		return 0;
-	}
-	aField->SetDoubleBone(tmp);
-
-	cout << tmp << "TMP\n\n" ;	
-	return tmp;
-	
-}*/
-/*
 bool Game::PlayerTurn(Player& CurrPlayer)
 {
-	int BonePlayed;
 //	bool turn = true;
 //	do
 //	{
-	
-		if(CurrPlayer.HandEmpty())
+		int BonePlayed = 0; 
+		if(CurrPlayer.HandSize() == 0)
 		{
 			cout << "You won the Game\n";
+			GameOver = true;
 			//SHOW SCORE
 			return false;
 //			turn = false;
 		}
-		if(aField->FirstMatch(CurrPlayer.ShowHand(BonePlayed)))
+		if(aField->GetLockedDouble())
+			cout << "Double is one of the ends: " << aField->GetDoubleBone() << endl;
+		else
 		{
-			cout << "\nFirst Run\n";
-			BonePlayed = CurrPlayer.PlayBone();
-			if(BonePlayed == -1)
-				cout << "This is the first bone you have to play double\n";
+			cout << "The open Ends are: ";
+			aField->PrintFreeEnds();
+		}
+	
+		aField->PrintFreeEnds();
+
+		BonePlayed = CurrPlayer.PlayBone();
+		
+		//Draw a bone
+		if(BonePlayed == -1)
+		{
+			cout << "This is the first bone you have to play double\n";
+			if(CurrPlayer.DrawBone(*Yard))
+			{
+				cout << "Current Player drew a bone\n";
+				return true;
+			}
 			else
-				aField->FirstMatch(CurrPlayer.ShowHand(BonePlayed));
+			{
+				cout << "Player couldn't draw a bone\n";
+				return false;
+			}
+		}
+	
+		else
+		{
+
+			
+			if(!aField->PlayGame(CurrPlayer.ShowHand(BonePlayed)))
+			{
+				cout << "Please Try again\n";
+				return false;
+			}
+			else			
+			{	cout << "Player played a bone\n";
+				CurrPlayer.DelBone(BonePlayed);
+
+				if(CurrPlayer.HandSize() == 0)
+				{
+					cout << "Game Over\n";
+					GameOver = true;
+				}
+			}
+		}
+
+		return true;
+
+}
+/*
+		//	cout << "\nFirst Run\n";
+		//	BonePlayed = CurrPlayer.PlayBone();
+		//	if(BonePlayed == -1)
+		//		cout << "This is the first bone you have to play double\n";
+		//	else
+		//		aField->FirstMatch(CurrPlayer.ShowHand(BonePlayed));
 		//		if(turn == true)
 		//		{
 		//			CurrPlayer.DelBone(BonePlayed);
 		//		}
 		
-		}
+	//	}
 		if(aField->GetDoubleBone())
 			cout << "The Field has a double bone: "<< aField->GetDoubleBone() << endl;
 		else

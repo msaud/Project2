@@ -20,10 +20,12 @@ int Player::PlayBone()
 {
 	int BoneSelected = -1;
 //	int HandsBones = DisplayHand();
-	DisplayHand();
+//	DisplayHand();
 	
-	cout << "Play a bone or hit 0 to draw one\n";
-
+//	cout << "Play a bone or hit 0 to draw one\n";
+	print();
+	
+	cout << "Please play a bone: ";
 	cin >> BoneSelected;
 
 	while (BoneSelected < 0 || BoneSelected > HandSize())
@@ -116,4 +118,19 @@ void Player::print() const
 	cout << "(0)    " << "Draw a Bone"  << endl; 
 
 	cout << "\nCurrent scores: " << WinningPile << endl;
+}
+
+int Player::DoubleIndex() const
+{
+	int Index = 0;
+	if(!hand.size())
+		return 0;
+
+	int larger = 0;
+
+	for (int i = 0; i < HandSize(); i++)
+		if(hand[i]->isDouble() && hand[i]->getFirstEnd() > larger)
+			Index = i;
+
+	return Index;
 }

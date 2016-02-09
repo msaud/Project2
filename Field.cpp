@@ -18,7 +18,10 @@ Field::~Field()
 {
 
 }
-
+bool Field::GetLockedDouble() const
+{
+	return UnLockGame;
+}
 void Field::SetDoubleBone(int DoubleBone)
 {
 	this->DoubleBone = DoubleBone;
@@ -41,7 +44,9 @@ int Field::GetDoubleBone()
 bool Field::FirstMatch(Bone* aBone)
 {
 	
-	if(aBone->isDouble())
+	if(!aBone->isDouble())
+		return false;
+	else
 	{	
 		LLField[fieldSize] = new node(aBone, aBone->getFirstEnd());
 		MatchDouble = aBone->getFirstEnd();
@@ -49,7 +54,7 @@ bool Field::FirstMatch(Bone* aBone)
 		return true;
 	}
 
-	return false;
+//	return false;
 	
 /*	if((aBone->getFirstEnd() == DoubleBone) && (aBone->getSecEnd() == DoubleBone))
 	{
@@ -84,11 +89,11 @@ bool Field::PlayGame(Bone* aBone)
 			if(EndsCounter == UnLockGame)
 			{
 				LockedDouble = false;
-				EndsCounter = 2;
+				EndsCounter = 0;
 //				return true;
 			}
 //			else	//open the game again
-//				return true;
+				return true;
 		}
 
 		else if(aBone->getFirstEnd() == DoubleBone) // if second end match double
@@ -114,7 +119,7 @@ bool Field::PlayGame(Bone* aBone)
 //				return true;
 			}
 //			else	//open the game again
-//				return true;
+				return true;
 		}
 
 //		else
@@ -138,11 +143,11 @@ bool Field::PlayGame(Bone* aBone)
 				{
 					OpenEnds.erase(it);
 					fieldSize++;
-					LLField[fieldSize] = new node(aBone, aBone->getSecEnd());
+					LLField[fieldSize] = new node(aBone, aBone->getFirstEnd());
 
 				//	OpenEnds[index]->setEnd(9 + 1);
 					LockedDouble = true;
-					DoubleBone = aBone->getSecEnd();
+					DoubleBone = aBone->getFirstEnd();
 					EndsCounter = 0;		//Counter
 					return true;
 				}
@@ -162,8 +167,8 @@ bool Field::PlayGame(Bone* aBone)
 		//	cout << "***Invalid choice***\nchoose one of the ends";
 			return false;
 		}
-		else	//Add ends not double
-		{
+//		else	//Add ends not double
+//		{
 			for(auto it = OpenEnds.begin(); it != OpenEnds.end();it++)
 			{
 				if(aBone->getSecEnd() == *it)
@@ -178,7 +183,7 @@ bool Field::PlayGame(Bone* aBone)
 					OpenEnds.push_back(aBone->getSecEnd());
 					return true;
 				}
-			}
+//			}
 		return false;	
 		
 		/*	for(int index = 0; index < fieldSize; index++)
@@ -206,6 +211,7 @@ bool Field::PlayGame(Bone* aBone)
 			}
 		*/
 		}
+	return false;
 	}
 
 
