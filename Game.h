@@ -13,7 +13,7 @@ class Game
 		Game(int NumOfPlayer);
 		~Game();
 		void RunGame();
-//		bool PlayerTurn(Player&);
+		bool PlayerTurn(Player&);
 //		int HighestBone(int NumOfPlayer);
 		
 	private:

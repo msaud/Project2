@@ -30,6 +30,8 @@ class Field
 	//	bool isFirstMatch();
 		bool FirstMatch(Bone* aBone);
 		void PrintFreeEnds();
+		bool GetLockedDouble() const;
+	
 	private:
 		int DoubleBone;
 		int EndsCounter; // Number of double has been played

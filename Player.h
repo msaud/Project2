@@ -21,6 +21,7 @@ class Player
 		bool HandEmpty();
 		int HandSize() const; 
 		int DisplayHand();
+		int DoubleIndex() const;
 
 	private:
 		//Hand hand;
