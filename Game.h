@@ -14,7 +14,6 @@ class Game
 		~Game();
 		void RunGame();
 		bool PlayerTurn(Player&);
-//		int HighestBone(int NumOfPlayer);
 		
 	private:
 		Player * players;

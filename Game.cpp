@@ -45,8 +45,6 @@ void Game::RunGame()
 	}
 
 	//Find the highest double
-//	int CurrPlayer = 0;
-
 	int IntialPlayer = 0;
 	bool ExistedDouble = false;
 	int tmp = 0;	//tmp is the highest double
@@ -58,10 +56,7 @@ void Game::RunGame()
 			{
 				if(players[index].ShowHand(j)->isDouble() && (players[index].ShowHand(j)->getFirstEnd() > tmp))
 				{
-				//	j = players[index].ShowHand(tmp)->getFirstEnd();
-				//	CurrPlayer = index;
 					IntialPlayer = index;
-				//	HighBone = tmp;
 					tmp = players[index].ShowHand(j)->getFirstEnd();
 					
 					ExistedDouble = true;
@@ -77,22 +72,16 @@ void Game::RunGame()
 		return ;
 	}
 	aField->SetDoubleBone(tmp);
-
-//	int SwitchPlayer = IntialPlayer;
-
-//	cout << tmp << "HIGHEST BONE\n\n\n";
-
-	
 	
 	//Print Player's hand
-	
+/*	
 	for(int i = 0; i < NumOfPlayer; i++)
 	{
 		cout << "Player # " << i + 1 << endl;
 		players[i].print();
 	}
 
-
+*/
 	int Index = players[IntialPlayer].DoubleIndex();
 	
 	if(aField->FirstMatch(players[IntialPlayer].ShowHand(Index)))
@@ -107,23 +96,6 @@ void Game::RunGame()
 	else
 		cout << "Faild First play\n";
 
-		
-
-//		players[IntialPlayer].DelBone(tmp);
-
-//		players[IntialPlayer].print();
-	//Player's turn
-
-/*	if(aField->FirstMatch(players[IntialPlayer].ShowHand(tmp)))
-	//	cout << "**WARNING**\n\n";
-//	else
-	{
-		cout << "First Player played highest bone\n";
-		players[IntialPlayer].ShowHand(tmp)->print();
-		players[IntialPlayer].DelBone(tmp);
-	}
-*/
-		
 
 	while(!GameOver)
 	{
@@ -131,9 +103,7 @@ void Game::RunGame()
 		if(IntialPlayer == NumOfPlayer)
 			IntialPlayer = 0;
 		
-//		players[IntialPlayer].print();
 		
-	//	SwitchPlayer++;
 		cout << "Player # " << IntialPlayer + 1 << endl;
 		PlayerTurn(players[IntialPlayer]);
 
@@ -143,9 +113,6 @@ void Game::RunGame()
 
 bool Game::PlayerTurn(Player& CurrPlayer)
 {
-//	bool turn = true;
-//	do
-//	{
 		int BonePlayed = 0; 
 		if(CurrPlayer.HandSize() == 0)
 		{
@@ -153,20 +120,27 @@ bool Game::PlayerTurn(Player& CurrPlayer)
 			GameOver = true;
 			//SHOW SCORE
 			return false;
-//			turn = false;
 		}
 		if(aField->GetLockedDouble())
 			cout << "Double is one of the ends: " << aField->GetDoubleBone() << endl;
 		else
 		{
-			cout << "The open Ends are: ";
+			cout << "The open Ends are: \n";
 			aField->PrintFreeEnds();
 		}
 	
-		aField->PrintFreeEnds();
-
 		BonePlayed = CurrPlayer.PlayBone();
-		
+	
+		char HideHand = ' ';
+		cout << "(H)ide your hand\n(Q)uit the game\n(C)ontinue\nPress H, Q, C: ";
+		cin >> HideHand;
+		cin.clear();
+		if(tolower(HideHand) == 'h')
+			system("clear && printf '\e[3J'");
+		else if(tolower(HideHand) == 'q')
+			GameOver = true;
+			
+
 		//Draw a bone
 		if(BonePlayed == -1)
 		{
@@ -193,7 +167,7 @@ bool Game::PlayerTurn(Player& CurrPlayer)
 				return false;
 			}
 			else			
-			{	cout << "Player played a bone\n";
+			{	
 				CurrPlayer.DelBone(BonePlayed);
 
 				if(CurrPlayer.HandSize() == 0)
@@ -205,64 +179,4 @@ bool Game::PlayerTurn(Player& CurrPlayer)
 		}
 
 		return true;
-
 }
-/*
-		//	cout << "\nFirst Run\n";
-		//	BonePlayed = CurrPlayer.PlayBone();
-		//	if(BonePlayed == -1)
-		//		cout << "This is the first bone you have to play double\n";
-		//	else
-		//		aField->FirstMatch(CurrPlayer.ShowHand(BonePlayed));
-		//		if(turn == true)
-		//		{
-		//			CurrPlayer.DelBone(BonePlayed);
-		//		}
-		
-	//	}
-		if(aField->GetDoubleBone())
-			cout << "The Field has a double bone: "<< aField->GetDoubleBone() << endl;
-		else
-			{
-				cout << "***The Field has NO double***\n";
-				aField->PrintFreeEnds();
-			}
-		
-		BonePlayed = CurrPlayer.PlayBone();
-
-		if(BonePlayed == -1)
-		{
-			if(CurrPlayer.DrawBone(*Yard))
-			{
-				cout << "Drawing a Bone\n";
-				return true;
-			}
-			else
-			{
-				cout << "***NO MORE BONES***\n";
-				return false;
-			}
-		}
-		else
-		{
-			if(aField->PlayGame(CurrPlayer.ShowHand(BonePlayed)))
-			{
-				cout << "Great Choice :)\n";
-				CurrPlayer.DelBone(BonePlayed);
-				if(CurrPlayer.HandSize() == 0)
-					return false;
-					//GameOver
-
-			}
-			else
-			{
-				cout << "Wrong Bone\n";
-				return false;
-			}
-
-		}
-		return true;
-//	}while (turn);
-}
-*/
-
