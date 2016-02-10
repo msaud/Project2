@@ -22,7 +22,8 @@ Game::Game(int NumOfPlayer)
 
 Game::~Game()
 {
-	delete []players;
+	for(int i = 0; i <= NumOfPlayer; i++)
+		delete [] players;
 	delete Yard;
 	delete aField;
 	

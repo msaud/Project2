@@ -25,9 +25,9 @@ int Player::PlayBone()
 //	cout << "Play a bone or hit 0 to draw one\n";
 	print();
 	
+	cin.ignore();
 	cout << "Please play a bone: ";
 	cin >> BoneSelected;
-
 	while (BoneSelected < 0 || BoneSelected > HandSize())
 	{
 		cout << "\n***Warning***\nWrong choice\nPlease try again\n\n";

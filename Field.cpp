@@ -16,7 +16,8 @@ Field::Field():UnLockGame(3)
 
 Field::~Field()
 {
-
+	for(int i = 0; i <= 45; i++)
+		delete LLField[i];
 }
 bool Field::GetLockedDouble() const
 {
